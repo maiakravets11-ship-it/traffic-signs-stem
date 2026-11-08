@@ -21,7 +21,45 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="methods\bilateral.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="methods\color.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="methods\geometry.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="methods\histogram.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="methods\hough.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="methods\metrics.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="methods\morphology.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="methods\region_growing.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="methods\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="traffic_signs_stem.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="methods\" />
+    <Folder Include="data\" />
+    <Folder Include="tests\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="config.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in
