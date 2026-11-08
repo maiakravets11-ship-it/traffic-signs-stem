@@ -51,11 +51,15 @@
     <Compile Include="tests\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tools\select_dataset.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="traffic_signs_stem.py" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="methods\" />
     <Folder Include="data\" />
+    <Folder Include="tools\" />
     <Folder Include="tests\" />
   </ItemGroup>
   <ItemGroup>
