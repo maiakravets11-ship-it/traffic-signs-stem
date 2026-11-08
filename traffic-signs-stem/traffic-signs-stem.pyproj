@@ -48,6 +48,9 @@
     <Compile Include="methods\__init__.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tests\test_color.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\__init__.py">
       <SubType>Code</SubType>
     </Compile>
