@@ -54,6 +54,7 @@
     <Compile Include="tests\test_color.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tests\test_histogram.py" />
     <Compile Include="tests\test_hough.py">
       <SubType>Code</SubType>
     </Compile>
