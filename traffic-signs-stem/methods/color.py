@@ -5,8 +5,7 @@ def to_rgb(image):
     """Приводить зображення до формату RGB з трьома каналами.
 
     Зображення у відтінках сірого (H, W) копіюється в три канали,
-    у зображення RGBA (H, W, 4) відкидається канал прозорості.
-    """
+    у зображення RGBA (H, W, 4) відкидається канал прозорості. """
     image = np.asarray(image)
     if image.ndim == 2:
         return np.stack([image, image, image], axis=2)
@@ -24,9 +23,7 @@ def rgb_to_hsv(image):
         H = 60 * ((G - B) / delta mod 6), якщо max = R
             60 * ((B - R) / delta + 2),   якщо max = G
             60 * ((R - G) / delta + 4),   якщо max = B
-            0, якщо delta = 0 (сірий колір)
-
-    """
+            0, якщо delta = 0 (сірий колір) """
     rgb = to_rgb(image).astype(np.float64) / 255.0
     c_max = rgb.max(axis=2)
     delta = c_max - rgb.min(axis=2)
@@ -39,8 +36,7 @@ def rgb_to_hsv(image):
 
 
 def _hue(rgb, c_max, delta):
-    """Обчислює відтінок H у градусах для нормованого RGB-зображення.
-    """
+    """Обчислює відтінок H у градусах для нормованого RGB-зображення."""
     red, green, blue = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
 
     # Для сірих пікселів (delta = 0) відтінок не визначений, лишаємо 0.
@@ -60,8 +56,7 @@ def _hue(rgb, c_max, delta):
 
 
 def red_mask(hsv, hue_low=15.0, hue_high=340.0, min_sat=0.4, min_val=0.2):
-    """Повертає бінарну маску червоних пікселів.
-    """
+    """Повертає бінарну маску червоних пікселів. """
     hue, sat, val = hsv[:, :, 0], hsv[:, :, 1], hsv[:, :, 2]
     red_hue = (hue <= hue_low) | (hue >= hue_high)
     return red_hue & (sat >= min_sat) & (val >= min_val)
