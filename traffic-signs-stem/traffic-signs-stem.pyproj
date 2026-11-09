@@ -57,6 +57,9 @@
     <Compile Include="tests\test_color.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tests\test_geometry.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\test_histogram.py" />
     <Compile Include="tests\test_hough.py">
       <SubType>Code</SubType>
@@ -68,6 +71,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tests\test_pipelines.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\test_region_growing.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tests\__init__.py">
