@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from methods.color import red_mask, rgb_to_hsv, to_rgb
+from methods.color import normalize_brightness, red_mask, rgb_to_hsv, to_rgb
 
 # Зображення 3x3, кожен піксель - колір із відомим HSV
 IMAGE_3X3 = np.array([
@@ -58,3 +58,21 @@ def test_red_mask_3x3():
         [False, False, False],
     ])
     np.testing.assert_array_equal(red_mask(rgb_to_hsv(image)), expected)
+
+
+def test_normalize_brightness_3x3():
+    """Найяскравіший піксель (V = 0.5) стає 1.0, решта масштабується в 2 рази."""
+    hsv = np.zeros((3, 3, 3))
+    hsv[:, :, 0] = 10.0
+    hsv[:, :, 1] = 0.6
+    hsv[:, :, 2] = [[0.1, 0.2, 0.3], [0.1, 0.2, 0.3], [0.5, 0.25, 0.0]]
+    result = normalize_brightness(hsv, percentile=100)
+    expected_v = [[0.2, 0.4, 0.6], [0.2, 0.4, 0.6], [1.0, 0.5, 0.0]]
+    np.testing.assert_allclose(result[:, :, 2], expected_v)
+    np.testing.assert_allclose(result[:, :, :2], hsv[:, :, :2])
+
+
+def test_normalize_brightness_black_image():
+    """Повністю чорне зображення не змінюється (немає ділення на нуль)."""
+    hsv = np.zeros((3, 3, 3))
+    np.testing.assert_array_equal(normalize_brightness(hsv), hsv)

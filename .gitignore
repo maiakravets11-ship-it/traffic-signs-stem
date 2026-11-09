@@ -219,3 +219,4 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 /.vs/traffic-signs-stem.slnx
+/traffic-signs-stem/results/pipeline1

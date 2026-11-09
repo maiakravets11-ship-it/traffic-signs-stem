@@ -1,0 +1,16 @@
+{
+  "pipeline1": {
+    "brightness_percentile": 99.0,
+    "red": {
+      "hue_low": 15.0,
+      "hue_high": 330.0,
+      "min_sat": 0.3,
+      "min_val": 0.1
+    },
+    "closing_radius": 1,
+    "opening_radius": 0,
+    "r_min_frac": 0.2,
+    "r_max_frac": 0.5,
+    "hough_threshold": 0.35
+  }
+}
