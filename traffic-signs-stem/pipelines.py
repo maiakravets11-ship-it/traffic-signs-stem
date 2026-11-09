@@ -1,9 +1,13 @@
 import numpy as np
 
+from methods.bilateral import bilateral_filter
 from methods.color import normalize_brightness, red_mask, rgb_to_hsv, to_rgb
+from methods.geometry import normalize_sign
+from methods.histogram import equalize_brightness
 from methods.hough import circle_offsets, circle_to_box, detect_circles
 from methods.morphology import (boundary, closing, disk_kernel, fill_holes,
                                 opening)
+from methods.region_growing import mask_to_box, segment_sign
 
 
 def mask_to_image(mask):
@@ -65,4 +69,40 @@ def pipeline1(image, params):
     return stages, box, score
 
 
-PIPELINES = {"1": pipeline1}
+def pipeline2(image, params):
+    """Пайплайн 2: виділення знака як області та нормалізація розміру.
+ 
+    Стадії:
+        1. гістограмне вирівнювання яскравості (гістограмна корекція);
+        2. білатеральний фільтр (фільтрація);
+        3. регіональне зростання фону від країв, знак - область
+           навколо центру, до якої фон не дійшов (сегментація);
+        4. афінне нормування знайденого знака до квадрата out_size
+           (геометричні перетворення)"""
+    image = to_rgb(image)
+    stages = {}
+ 
+    # Стадія 1: гістограмна корекція
+    image = equalize_brightness(image)
+    stages["1_equalized"] = image
+ 
+    # Стадія 2: фільтрація
+    image = bilateral_filter(image, **params["bilateral"])
+    stages["2_bilateral"] = image
+ 
+    # Стадія 3: сегментація
+    region = params["region"]
+    thresholds = range(region["threshold_min"], region["threshold_max"] + 1,
+                       region["threshold_step"])
+    mask, _ = segment_sign(image, thresholds, region["min_area"])
+    stages["3_region"] = mask_to_image(mask)
+    box = mask_to_box(mask)
+    if box is None:
+        return stages, None, 0.0
+ 
+    # Стадія 4: геометричне нормування
+    stages["4_normalized"] = normalize_sign(image, box, params["out_size"])
+    return stages, box, float(mask.mean())
+ 
+ 
+PIPELINES = {"1": pipeline1, "2": pipeline2}

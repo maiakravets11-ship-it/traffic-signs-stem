@@ -1,9 +1,9 @@
 {
   "pipeline1": {
-    "brightness_percentile": 99.0,
+    "brightness_percentile": 99,
     "red": {
-      "hue_low": 15.0,
-      "hue_high": 330.0,
+      "hue_low": 15,
+      "hue_high": 330,
       "min_sat": 0.3,
       "min_val": 0.1
     },
@@ -12,5 +12,19 @@
     "r_min_frac": 0.2,
     "r_max_frac": 0.5,
     "hough_threshold": 0.35
+  },
+  "pipeline2": {
+    "bilateral": {
+      "size": 5,
+      "sigma_s": 2,
+      "sigma_r": 40
+    },
+    "region": {
+      "threshold_min": 5,
+      "threshold_max": 60,
+      "threshold_step": 5,
+      "min_area": 0.35
+    },
+    "out_size": 48
   }
 }

@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 
 from methods.metrics import iou
-from pipelines import pipeline1
+from pipelines import pipeline1, pipeline2
 
 CONFIG = json.loads((Path(__file__).parent.parent / "config.json")
                     .read_text(encoding="utf-8"))
@@ -40,4 +40,18 @@ def test_pipeline1_no_red():
     """Зображення без червоного: знак не знайдено, без помилки."""
     image = np.full((40, 40, 3), 120, dtype=np.uint8)
     _, box, score = pipeline1(image, CONFIG["pipeline1"])
+    assert box is None and score == 0.0
+
+
+def test_pipeline2_finds_sign():
+    """Пайплайн 2 знаходить знак (IoU >= 0.8) і нормує його до 48x48."""
+    stages, box, _ = pipeline2(synthetic_sign(), CONFIG["pipeline2"])
+    assert iou(box, (9, 8, 53, 52)) >= 0.8
+    assert stages["4_normalized"].shape == (48, 48, 3)
+
+
+def test_pipeline2_uniform_image():
+    """Однотонне зображення: знак не знайдено, без помилки."""
+    image = np.full((40, 40, 3), 120, dtype=np.uint8)
+    _, box, score = pipeline2(image, CONFIG["pipeline2"])
     assert box is None and score == 0.0

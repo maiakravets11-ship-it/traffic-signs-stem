@@ -94,17 +94,20 @@ def save_metrics(rows, output):
 
 
 def print_summary(rows):
-    """Виводить середній IoU і частку IoU >= 0.5 загалом і по групах."""
+    """Виводить підсумок метрик загалом і по групах зображень. """
     groups = sorted({row["group"] for row in rows})
+    print(f"{'група':>13} | {'n':>3} | {'found':>5} | {'IoU сер.':>8} | "
+          f"{'>=0.5':>5} | {'>=0.75':>6}")
     for group in ["усі"] + groups:
         selected = rows if group == "усі" else [
             row for row in rows if row["group"] == group]
-        values = [row["iou"] for row in selected if row["iou"] is not None]
-        if values:
-            share = 100 * np.mean([v >= 0.5 for v in values])
-            print(f"{group:>13}: n = {len(values):3d}, "
-                  f"середній IoU = {np.mean(values):.3f}, "
-                  f"IoU >= 0.5: {share:.0f}%")
+        values = np.array([row["iou"] for row in selected
+                           if row["iou"] is not None])
+        found = np.mean([row["found"] for row in selected])
+        if values.size:
+            print(f"{group:>13} | {len(selected):3d} | {found:5.0%} | "
+                  f"{values.mean():8.3f} | {np.mean(values >= 0.5):5.0%} | "
+                  f"{np.mean(values >= 0.75):6.0%}")
 
 
 def main():

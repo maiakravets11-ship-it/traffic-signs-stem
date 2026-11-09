@@ -220,3 +220,4 @@ __marimo__/
 .streamlit/secrets.toml
 /.vs/traffic-signs-stem.slnx
 /traffic-signs-stem/results/pipeline1
+/traffic-signs-stem/results/pipeline2
