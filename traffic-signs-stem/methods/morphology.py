@@ -78,3 +78,19 @@ def boundary(mask, kernel=None):
         kernel = disk_kernel(1)
     mask = np.asarray(mask, dtype=bool)
     return mask & ~erode(mask, kernel)
+
+def fill_holes(mask):
+    """Заповнює внутрішні порожнини маски (морфологічна реконструкція)."""
+    mask = np.asarray(mask, dtype=bool)
+    if mask.ndim != 2:
+        raise ValueError(f"Маска має бути двовимірною, отримано {mask.shape}")
+    background = np.zeros_like(mask)
+    background[0, :] = background[-1, :] = True
+    background[:, 0] = background[:, -1] = True
+    background &= ~mask
+    cross = disk_kernel(1)
+    while True:
+        grown = dilate(background, cross) & ~mask
+        if np.array_equal(grown, background):
+            return ~background
+        background = grown

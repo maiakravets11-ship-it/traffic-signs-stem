@@ -2,7 +2,7 @@ import numpy as np
 import pytest
 
 from methods.morphology import (boundary, closing, dilate, disk_kernel,
-                                erode, gradient, opening)
+                                erode, gradient, opening, fill_holes)
 
 CROSS = np.array([[0, 1, 0],
                   [1, 1, 1],
@@ -88,3 +88,20 @@ def test_wrong_input_shapes():
         erode(np.zeros((3, 3, 3)), CROSS)
     with pytest.raises(ValueError):
         dilate(BLOCK_5X5, np.ones((2, 2)))
+
+
+def test_fill_holes_ring_5x5():
+    """Кільце 3x3 з діркою в центрі заповнюється до суцільного блоку."""
+    ring = BLOCK_5X5.copy()
+    ring[2, 2] = False
+    np.testing.assert_array_equal(fill_holes(ring), BLOCK_5X5)
+ 
+ 
+def test_fill_holes_keeps_open_shape():
+    """Фігура «підкова», відкрита до краю, не змінюється."""
+    horseshoe = np.array([[0, 0, 0, 0, 0],
+                          [0, 1, 0, 1, 0],
+                          [0, 1, 0, 1, 0],
+                          [0, 1, 1, 1, 0],
+                          [0, 0, 0, 0, 0]], dtype=bool)
+    np.testing.assert_array_equal(fill_holes(horseshoe), horseshoe)
