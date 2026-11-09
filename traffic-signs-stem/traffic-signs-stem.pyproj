@@ -51,6 +51,9 @@
     <Compile Include="pipelines.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="tests\test_bilateral.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\test_color.py">
       <SubType>Code</SubType>
     </Compile>
